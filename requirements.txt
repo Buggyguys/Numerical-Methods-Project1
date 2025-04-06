@@ -1,0 +1,9 @@
+numpy>=1.21.0
+matplotlib>=3.4.0
+scipy>=1.7.0
+PyQt5>=5.15.0
+# tkinter is not installable via pip. It comes with Python, but may need to be installed separately on some systems:
+# - On Ubuntu/Debian: sudo apt-get install python3-tk
+# - On Fedora/RHEL: sudo dnf install python3-tkinter
+# - On macOS: Install Python with Homebrew (brew install python) which includes tkinter, or use Python.org installers
+# - On Windows: Tkinter is included with standard Python installers 
