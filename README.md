@@ -314,27 +314,27 @@ $$L(2.5) = 30 + 58.5 - 10.25 = 78.25$$
 
 **Theory**: Newton interpolation uses divided differences to construct a polynomial:
 
-$$N(x) = f_0 + f_{0,1}(x-x_0) + f_{0,1,2}(x-x_0)(x-x_1) + \ldots$$
+- $$N(x) = f_0 + f_{0,1}(x-x_0) + f_{0,1,2}(x-x_0)(x-x_1) + \ldots$$
 
 where $f_{i,j,\ldots}$ are divided differences $f[x_i,x_j,\ldots]$.
 
 **Implementation**: For the 3-point dataset (days 2, 3, 4), we calculate:
 
 First-order divided differences:
-$$f_{2,3} = \frac{f(3) - f(2)}{3 - 2} = \frac{78 - 80}{1} = -2$$
-$$f_{3,4} = \frac{f(4) - f(3)}{4 - 3} = \frac{82 - 78}{1} = 4$$
+- $$f_{2,3} = \frac{f(3) - f(2)}{3 - 2} = \frac{78 - 80}{1} = -2$$
+- $$f_{3,4} = \frac{f(4) - f(3)}{4 - 3} = \frac{82 - 78}{1} = 4$$
 
 Second-order divided difference:
-$$f_{2,3,4} = \frac{f_{3,4} - f_{2,3}}{4 - 2} = \frac{4 - (-2)}{2} = \frac{6}{2} = 3$$
+- $$f_{2,3,4} = \frac{f_{3,4} - f_{2,3}}{4 - 2} = \frac{4 - (-2)}{2} = \frac{6}{2} = 3$$
 
 The Newton interpolation polynomial is:
-$$N(x) = f(2) + f_{2,3}(x-2) + f_{2,3,4}(x-2)(x-3)$$
-$$N(x) = 80 + (-2)(x-2) + 3(x-2)(x-3)$$
+- $$N(x) = f(2) + f_{2,3}(x-2) + f_{2,3,4}(x-2)(x-3)$$
+- $$N(x) = 80 + (-2)(x-2) + 3(x-2)(x-3)$$
 
 Evaluating at $x = 2.5$:
-$$N(2.5) = 80 + (-2)(2.5-2) + 3(2.5-2)(2.5-3)$$
-$$N(2.5) = 80 + (-2)(0.5) + 3(0.5)(-0.5)$$
-$$N(2.5) = 80 - 1 - 0.75 = 78.25$$
+- $$N(2.5) = 80 + (-2)(2.5-2) + 3(2.5-2)(2.5-3)$$
+- $$N(2.5) = 80 + (-2)(0.5) + 3(0.5)(-0.5)$$
+- $$N(2.5) = 80 - 1 - 0.75 = 78.25$$
 
 **Result**: The estimated AQI value at day 2.5 using Newton interpolation is also 78.25.
 
@@ -359,9 +359,9 @@ $$S_i(x) = a_i + b_i(x-x_i) + c_i(x-x_i)^2 + d_i(x-x_i)^3$$
 - $d_2 = -0.333$ (calculated from third derivative constraints)
 
 Therefore:
-$$S_2(2.5) = 80 + (-1.667)(2.5-2) + 0.5(2.5-2)^2 + (-0.333)(2.5-2)^3$$
-$$S_2(2.5) = 80 + (-1.667)(0.5) + 0.5(0.5)^2 + (-0.333)(0.5)^3$$
-$$S_2(2.5) = 80 - 0.8335 + 0.125 - 0.0416 = 79.25$$
+- $$S_2(2.5) = 80 + (-1.667)(2.5-2) + 0.5(2.5-2)^2 + (-0.333)(2.5-2)^3$$
+- $$S_2(2.5) = 80 + (-1.667)(0.5) + 0.5(0.5)^2 + (-0.333)(0.5)^3$$
+- $$S_2(2.5) = 80 - 0.8335 + 0.125 - 0.0416 = 79.25$$
 
 **Result**: The value from the cubic spline at day 2.5 is approximately 79.25.
 
@@ -395,7 +395,3 @@ The application uses:
 - PyQt5 for the graphical user interface
 - Matplotlib for data visualization
 - NumPy and SciPy for numerical calculations
-
-## License
-
-This project is provided for educational purposes. 
