@@ -1,21 +1,21 @@
 @echo off
 echo Numerical Methods Project Setup
 
-:: Check if virtual environment exists
+::check for virtual env
 if not exist venv (
     echo Creating virtual environment...
     python -m venv venv
 )
 
-:: Activate virtual environment
+::activate virtual env
 echo Activating virtual environment...
 call venv\Scripts\activate
 
-:: Install dependencies
+::install
 echo Installing dependencies (NumPy, SciPy, Matplotlib, PyQt5)...
 pip install -r requirements.txt
 
-:: Run the application
+::run app
 echo Starting application...
 python main.py
 

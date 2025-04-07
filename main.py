@@ -1,9 +1,8 @@
 import sys
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, 
-                            QHBoxLayout, QPushButton, QLabel, QGroupBox)
 from PyQt5.QtCore import Qt
 import matplotlib
-matplotlib.use('Qt5Agg')  # Use Qt5Agg backend for showing the plot
+matplotlib.use('Qt5Agg')  #use Qt5Agg backend
 
 class NumericalMethodsApp(QMainWindow):
     def __init__(self):
@@ -11,30 +10,29 @@ class NumericalMethodsApp(QMainWindow):
         self.setWindowTitle("Numerical Methods Project")
         self.setMinimumSize(1000, 600)
         
-        # Set up the main widget and layout
+        #set up the main widget and layout
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)
         self.create_landing_page()
     
     def create_landing_page(self):
-        """Create the main landing page with problem selection"""
-        # Clear any existing layout
+        #clear any existing layout
         if self.central_widget.layout():
-            # Remove all widgets from the layout
+            #remove all widgets from the layout
             while self.central_widget.layout().count():
                 item = self.central_widget.layout().takeAt(0)
                 widget = item.widget()
                 if widget:
                     widget.deleteLater()
-            # Delete the layout
+            #delete the layout
             QWidget().setLayout(self.central_widget.layout())
         
-        # Main layout
+        #main layout
         main_layout = QVBoxLayout(self.central_widget)
         main_layout.setContentsMargins(30, 30, 30, 30)
         main_layout.setSpacing(20)
         
-        # Title
+        #title
         title_label = QLabel("Numerical Methods Project")
         title_label.setStyleSheet("font-size: 24px; font-weight: bold;")
         title_label.setAlignment(Qt.AlignCenter)
@@ -45,11 +43,11 @@ class NumericalMethodsApp(QMainWindow):
         subtitle_label.setAlignment(Qt.AlignCenter)
         main_layout.addWidget(subtitle_label)
         
-        # Problem selection layout
+        #problem selection layout
         problems_layout = QHBoxLayout()
         problems_layout.setSpacing(20)
         
-        # Problem A5: Network Flow
+        #problem A5: Network Flow
         network_group = QGroupBox("Problem A5")
         network_layout = QVBoxLayout(network_group)
         
@@ -70,7 +68,7 @@ class NumericalMethodsApp(QMainWindow):
         
         problems_layout.addWidget(network_group)
         
-        # Problem B7: AQI
+        #problem B7: AQI
         aqi_group = QGroupBox("Problem B7")
         aqi_layout = QVBoxLayout(aqi_group)
         
@@ -93,7 +91,7 @@ class NumericalMethodsApp(QMainWindow):
         
         main_layout.addLayout(problems_layout)
         
-        # Footer with exit button
+        #footer with exit button
         exit_btn = QPushButton("Exit")
         exit_btn.clicked.connect(self.close)
         exit_btn.setMaximumWidth(100)
@@ -104,24 +102,23 @@ class NumericalMethodsApp(QMainWindow):
         main_layout.addLayout(footer_layout)
     
     def open_network_flow(self):
-        """Open the Network Flow analysis"""
         from network_flow_gui import NetworkFlowGUI
         
-        # Create a new window for the network flow analysis
+        #create a new window for the network flow analysis
         self.network_flow_window = QMainWindow()
         self.network_flow_window.setWindowTitle("Problem A5: Transportation Network Flow Analysis")
         self.network_flow_window.setMinimumSize(1000, 700)
         
-        # Create main widget and layout
+        #create main widget and layout
         central_widget = QWidget()
         self.network_flow_window.setCentralWidget(central_widget)
         layout = QVBoxLayout(central_widget)
         
-        # Create the network flow GUI
+        #create the network flow GUI
         self.network_flow_widget = NetworkFlowGUI()
         layout.addWidget(self.network_flow_widget)
         
-        # Add a back button
+        #add a back button
         back_btn = QPushButton("Back to Main Menu")
         back_btn.clicked.connect(self.close_network_flow)
         back_btn.setMaximumWidth(200)
@@ -130,33 +127,31 @@ class NumericalMethodsApp(QMainWindow):
         back_layout.addWidget(back_btn)
         layout.addLayout(back_layout)
         
-        # Show the window
+        #show the window
         self.network_flow_window.show()
     
     def close_network_flow(self):
-        """Close the network flow window and return to main menu"""
         if hasattr(self, 'network_flow_window'):
             self.network_flow_window.close()
     
     def open_aqi_analysis(self):
-        """Open the AQI analysis"""
         from aqi_analysis_gui import AQIAnalysisGUI
         
-        # Create a new window for the AQI analysis
+        #create a new window for the AQI analysis
         self.aqi_window = QMainWindow()
         self.aqi_window.setWindowTitle("Problem B7: Air Quality Index Analysis")
         self.aqi_window.setMinimumSize(1000, 700)
         
-        # Create main widget and layout
+        #create main widget and layout
         central_widget = QWidget()
         self.aqi_window.setCentralWidget(central_widget)
         layout = QVBoxLayout(central_widget)
         
-        # Create the AQI analysis GUI
+        #create the AQI analysis GUI
         self.aqi_widget = AQIAnalysisGUI()
         layout.addWidget(self.aqi_widget)
         
-        # Add a back button
+        #add a back button
         back_btn = QPushButton("Back to Main Menu")
         back_btn.clicked.connect(self.close_aqi_analysis)
         back_btn.setMaximumWidth(200)
@@ -165,11 +160,10 @@ class NumericalMethodsApp(QMainWindow):
         back_layout.addWidget(back_btn)
         layout.addLayout(back_layout)
         
-        # Show the window
+        #show the window
         self.aqi_window.show()
     
     def close_aqi_analysis(self):
-        """Close the AQI window and return to main menu"""
         if hasattr(self, 'aqi_window'):
             self.aqi_window.close()
 

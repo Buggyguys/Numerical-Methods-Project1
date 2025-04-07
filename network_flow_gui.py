@@ -10,42 +10,38 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import time
 
 class NetworkFlowGUI(QWidget):
-    """Main GUI application for network flow analysis visualization."""
-    
     def __init__(self):
-        """Initialize the GUI application."""
+        #initialize GUI
         super().__init__()
         
         self.setup_gui()
         self.solve_and_display()
         
     def setup_gui(self):
-        """Set up the GUI components and styling."""
-        # Main layout
+        #main layout
         main_layout = QVBoxLayout(self)
         main_layout.setContentsMargins(10, 10, 10, 10)
         
-        # Create a tabbed widget
+        #create a tabbed widget
         self.tabs = QTabWidget()
         main_layout.addWidget(self.tabs)
         
-        # Create tab widgets
+        #create tab widgets
         self.results_widget = QWidget()
         self.plots_widget = QWidget()
         self.matrix_widget = QWidget()
         
-        # Add tabs
+        #add tabs
         self.tabs.addTab(self.results_widget, "Solutions")
         self.tabs.addTab(self.plots_widget, "Visualizations")
         self.tabs.addTab(self.matrix_widget, "Matrix Info")
         
-        # Set up layouts for each tab
+        #set up layouts for each tab
         self.results_layout = QVBoxLayout(self.results_widget)
         self.plots_layout = QVBoxLayout(self.plots_widget)
         self.matrix_layout = QVBoxLayout(self.matrix_widget)
         
     def solve_and_display(self):
-        """Solve the network flow problem and display results."""
         A = np.array([
             [1, -1, 0, 0],
             [-1, 2, -1, 0],
@@ -61,10 +57,10 @@ class NetworkFlowGUI(QWidget):
         self.create_plots(solutions)
         
     def compute_solutions(self, A, b):
-        """Compute solutions using multiple numerical methods."""
+        #compute solutions with multiple numerical methods
         solutions = {}
         
-        # SVD solution
+        #SVD solution
         t0 = time.time()
         U, s, Vh = linalg.svd(A)
         tol = 1e-10
@@ -74,14 +70,14 @@ class NetworkFlowGUI(QWidget):
             'time': time.time() - t0
         }
         
-        # Gauss Elimination solution
+        #Gauss Elimination solution
         t0 = time.time()
         solutions['Gauss'] = {
             'solution': self.gauss_elimination(A, b),
             'time': time.time() - t0
         }
         
-        # Jacobi solution
+        #Jacobi solution
         t0 = time.time()
         jacobi_solution, jacobi_history = self.jacobi_method(A, b)
         solutions['Jacobi'] = {
@@ -90,7 +86,7 @@ class NetworkFlowGUI(QWidget):
             'time': time.time() - t0
         }
         
-        # Gauss-Seidel solution
+        #Gauss-Seidel solution
         t0 = time.time()
         gs_solution, gs_history = self.gauss_seidel_method(A, b)
         solutions['Gauss-Seidel'] = {
@@ -99,14 +95,14 @@ class NetworkFlowGUI(QWidget):
             'time': time.time() - t0
         }
         
-        # Calculate residuals
+        #calculate residuals
         for method in solutions:
             solutions[method]['residual'] = np.linalg.norm(A @ solutions[method]['solution'] - b)
         
         return solutions
     
     def gauss_elimination(self, A, b):
-        """Solve system using Gauss elimination with partial pivoting."""
+        #solve system with Gauss elimination / partial pivoting
         n = len(A)
         Ab = np.column_stack((A.copy(), b.copy()))
         
@@ -129,7 +125,8 @@ class NetworkFlowGUI(QWidget):
         return x
     
     def jacobi_method(self, A, b, max_iter=1000, tol=1e-10):
-        """Solve system using Jacobi iterative method."""
+        #solve with Jacobi / iterative method
+
         n = len(A)
         x = np.zeros(n)
         D = np.diag(A)
@@ -150,7 +147,7 @@ class NetworkFlowGUI(QWidget):
         return x, history
     
     def gauss_seidel_method(self, A, b, max_iter=1000, tol=1e-10):
-        """Solve system using Gauss-Seidel iterative method."""
+        #solve with Gauss-Seidel / iterative method
         n = len(A)
         x = np.zeros(n)
         history = []
@@ -172,14 +169,13 @@ class NetworkFlowGUI(QWidget):
         return x, history
     
     def display_matrix_info(self, A, b):
-        """Display matrix properties in the GUI."""
-        # Add title
+        #add title
         title = QLabel("Matrix Properties")
         title.setStyleSheet("font-size: 18px; font-weight: bold;")
         title.setAlignment(Qt.AlignCenter)
         self.matrix_layout.addWidget(title)
         
-        # Matrix visualization
+        #matrix visualization
         matrix_group = QGroupBox("System Matrix (A)")
         self.matrix_layout.addWidget(matrix_group)
         matrix_layout = QVBoxLayout(matrix_group)
@@ -195,7 +191,7 @@ class NetworkFlowGUI(QWidget):
         matrix_label.setFont(QFont("Courier", 12))
         matrix_layout.addWidget(matrix_label)
         
-        # Right-hand side visualization
+        #right-hand side visualization
         b_text = "b = [ "
         for val in b:
             b_text += f"{val:5.1f} "
@@ -205,7 +201,7 @@ class NetworkFlowGUI(QWidget):
         b_label.setFont(QFont("Courier", 12))
         matrix_layout.addWidget(b_label)
         
-        # Add matrix properties
+        #add matrix properties
         props_group = QGroupBox("Properties")
         self.matrix_layout.addWidget(props_group)
         props_layout = QVBoxLayout(props_group)
@@ -225,7 +221,7 @@ class NetworkFlowGUI(QWidget):
         props_label.setFont(QFont("Courier", 10))
         props_layout.addWidget(props_label)
         
-        # Add explanation
+        #add explanation
         explanation = (
             "The matrix represents the conservation laws in the transportation network.\n"
             "Each row corresponds to a node in the network, and the entries represent the connections.\n"
@@ -238,31 +234,30 @@ class NetworkFlowGUI(QWidget):
         self.matrix_layout.addWidget(explanation_label)
     
     def display_solutions(self, solutions):
-        """Display solution results in a table format."""
-        # Add title
+        #add title
         title = QLabel("Flow Solution Results")
         title.setStyleSheet("font-size: 18px; font-weight: bold;")
         title.setAlignment(Qt.AlignCenter)
         self.results_layout.addWidget(title)
         
-        # Create a scrollable area for the table
+        #create a scrollable area for the table
         scroll_area = QScrollArea()
         scroll_area.setWidgetResizable(True)
         self.results_layout.addWidget(scroll_area)
         
-        # Container widget for scroll area
+        #container widget for scroll area
         scroll_content = QWidget()
         scroll_area.setWidget(scroll_content)
         scroll_layout = QVBoxLayout(scroll_content)
         
-        # Create a tree widget for the table
+        #create a tree widget for the table
         tree = QTreeWidget()
         tree.setHeaderLabels(["Method", "Flow Values", "Residual", "Time (s)", "Iterations"])
         tree.setAlternatingRowColors(True)
         tree.setRootIsDecorated(False)
         scroll_layout.addWidget(tree)
         
-        # Add data
+        #add data
         for method, data in solutions.items():
             solution_str = np.array2string(data['solution'], precision=4, suppress_small=True)
             iterations = "N/A"
@@ -278,11 +273,11 @@ class NetworkFlowGUI(QWidget):
             ])
             tree.addTopLevelItem(item)
         
-        # Auto-adjust column widths
+        #auto-adjust column widths
         for i in range(tree.columnCount()):
             tree.resizeColumnToContents(i)
         
-        # Add explanation
+        #add explanation
         explanation = (
             "The solution represents the flow values between nodes in the transportation network.\n"
             "A lower residual value indicates a more accurate solution.\n"
@@ -294,7 +289,7 @@ class NetworkFlowGUI(QWidget):
         explanation_label.setAlignment(Qt.AlignCenter)
         self.results_layout.addWidget(explanation_label)
         
-        # Add interpretation
+        #add interpretation
         interp_group = QGroupBox("Interpretation")
         self.results_layout.addWidget(interp_group)
         interp_layout = QVBoxLayout(interp_group)
@@ -313,14 +308,13 @@ class NetworkFlowGUI(QWidget):
         interp_layout.addWidget(interp_label)
     
     def create_plots(self, solutions):
-        """Create and display solution comparison and convergence plots."""
         fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8))
         fig.set_tight_layout(True)
         
         x = np.arange(len(next(iter(solutions.values()))['solution']))
         width = 0.2
         
-        # Solution comparison plot
+        #solution comparison plot
         for i, (method, data) in enumerate(solutions.items()):
             ax1.bar(x + i*width - width*len(solutions)/2, 
                    data['solution'], width, label=method)
@@ -333,7 +327,7 @@ class NetworkFlowGUI(QWidget):
         ax1.set_xticks(x)
         ax1.set_xticklabels([f'Flow {i+1}' for i in x])
         
-        # Convergence history plot
+        #convergence history plot
         for method in ['Jacobi', 'Gauss-Seidel']:
             if 'history' in solutions[method]:
                 ax2.semilogy(solutions[method]['history'], label=f"{method}")
@@ -344,11 +338,11 @@ class NetworkFlowGUI(QWidget):
         ax2.legend()
         ax2.grid(True)
         
-        # Display the plot in the GUI
+        #display the plot in the GUI
         canvas = FigureCanvas(fig)
         self.plots_layout.addWidget(canvas)
         
-        # Add explanation
+        #add explanation
         explanation = (
             "The top graph compares the flow values computed by each method.\n"
             "The bottom graph shows the convergence history for the iterative methods (Jacobi and Gauss-Seidel).\n"
