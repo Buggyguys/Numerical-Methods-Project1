@@ -1,6 +1,9 @@
 import sys
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, 
+from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout,
+                           QPushButton, QLabel, QStackedWidget, QHBoxLayout,
+                           QGroupBox)
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QFont, QPixmap
 import matplotlib
 matplotlib.use('Qt5Agg')  #use Qt5Agg backend
 
